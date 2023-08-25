@@ -1,22 +1,70 @@
 #include <iostream>       // std::cout
 #include <queue>          // std::queue
+using namespace std;
+#include <unordered_map>
+#include <queue>
+#include <list>
+template <typename T>
+class graph{
+    public:
+        unordered_map<T,list<T> >adj;
 
-int main ()
-{
-  std::queue<int> foo,bar;
-  foo.push (10); foo.push(20); foo.push(30);
-  bar.push (111); bar.push(222);
-
-  foo.swap(bar);
-
-  std::cout << "size of foo: " << foo.size() << '\n';
-  std::cout << "size of bar: " << bar.size() << '\n';
-  
-  int n = foo.size();
-    for ( int i = 0; i < n; i++)
-    {
-        std::cout<<foo.front()<<" ";
-        foo.pop();
+    void addEdge(T u , T v , bool direction ){
+        //0 undirected //1 directed 
+        adj[u].push_back(v);
+        if(direction == 0){
+            adj[v].push_back(u);
+        }
     }
-  return 0;
+    void printList( ){
+        for(auto i : adj){
+            cout<< i.first<<"->"; 
+            for(auto j : i.second){
+                cout << j << ", ";
+            }
+            cout << endl;
+        }
+    }
+    void bfs(int src , unordered_map<int,int >& visited){
+        queue <int> q;
+        q.push(src);
+        visited[src] = true;
+        while(!q.empty()){
+            int front  = q.front();
+            q.pop();
+            cout<<front << " ";
+            for(auto i : adj[front]){
+                if(!visited[i]){
+                    q.push(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    }
+    void dfs(int src , unordered_map<int,int >& visited){
+        cout<<src<<" ";
+        visited [src] = true;
+        for(auto i : adj[src]){
+        if(!visited[i]){
+            dfs(i,visited);
+        }
+        }
+    }
+};
+int main(){
+    graph<int> gu;
+    gu.addEdge(0,1,0);
+    gu.addEdge(1,2,0);
+    gu.addEdge(2,3,0);
+    gu.addEdge(3,0,0);
+    gu.printList();
+    cout<<endl;
+
+    unordered_map<int,int > visited;
+    int n = 3; 
+    for(int i = 0 ; i <=3 ; i++){
+        if(!visited[i])
+        gu.dfs(i , visited);
+    }
+
 }
