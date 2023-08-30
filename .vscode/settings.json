@@ -3,6 +3,8 @@
         "new": "cpp",
         "iostream": "cpp",
         "__bit_reference": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "queue": "cpp",
+        "unordered_map": "cpp"
     }
 }

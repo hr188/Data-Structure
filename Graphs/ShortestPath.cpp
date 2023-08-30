@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <stack>
 #include <limits.h>
+
 using namespace std;
 
 class graph {
@@ -99,6 +100,75 @@ class graph {
             }
 
     }
+    void DjkastraS(int src , int V){
+        //TC : Olog(V+E)
+        priority_queue<pair<int,int> ,vector<pair<int,int> > , greater<pair<int,int>>> pq;
+        vector<int> dist(V, INT_MAX);
+        
+        dist[src] = 0;
+        pq.push({0,src}); //first pair {distance , NODE} 
+
+        while(!pq.empty()){
+            int node = pq.top().second;
+            int wt = pq.top().first;
+            pq.pop();
+            if (wt > dist[node]) {
+            continue;
+            }
+
+            for(auto it : adj[node]){
+                int Edgeweight = it.second;
+                int currnode = it.first;
+                if(wt  + Edgeweight  < dist[currnode]){
+                    dist[currnode ]= wt + Edgeweight;
+                    pq.push({dist[currnode ] ,currnode });
+                }
+            }
+            for(int i =0 ; i< V ; i++){
+                cout<< i <<"->"<<dist[i]<<endl;
+            }
+            
+        }
+    }
+    void BellmanFordAlgo(int n , int src ){
+        //O(V*E)
+        vector<int> dist (n, INT_MAX);
+        dist[src] = 0;
+        for(int i = 0 ; i< n-1 ; i++){
+            for(auto it : adj){
+                for(auto nbr : it.second){
+                    int u = it.first;
+                    int v = nbr.second;
+                    int wt = nbr.second;
+                    if(dist[u]!= INT_MAX && dist[u] + wt < dist[v]){
+                        dist[v] = dist[u] + wt;
+                    }
+                }
+            }
+        }
+
+        //TO CHECK IF NEGATIVE CYCLE IS PRESENT
+        bool check = true;
+        for(auto it : adj){
+                for(auto nbr : it.second){
+                    int u = it.first;
+                    int v = nbr.second;
+                    int wt = nbr.second;
+                    if(dist[u]!= INT_MAX && dist[u] + wt < dist[v]){
+                        dist[v] = dist[u] + wt;
+                        check = false;
+                    }
+                }
+            }
+        if(check == false )  cout<<"negative cycle is present";
+
+        cout <<" printing distance array "<<endl;
+        for(int i = 0 ; i<dist.size() ; i++){
+            cout<< i << "-> "<<dist[i];
+            cout<<endl;
+        }
+
+    }
 };
 int main() {
   graph g;
@@ -125,5 +195,6 @@ int main() {
   g.topoSortDFS(srcc , vis ,topoOrder ); 
   int destt = 3;
   g.shortestPathDfs(3 , topoOrder , 5);
+  cout<<endl;
   
 }
