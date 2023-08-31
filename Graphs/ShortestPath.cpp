@@ -130,6 +130,7 @@ class graph {
             
         }
     }
+    //belman ford
     void BellmanFordAlgo(int n , int src ){
         //O(V*E)
         vector<int> dist (n, INT_MAX);
@@ -166,6 +167,29 @@ class graph {
         for(int i = 0 ; i<dist.size() ; i++){
             cout<< i << "-> "<<dist[i];
             cout<<endl;
+        }
+
+    }
+    void FloydWarshal (int src , int n ){
+        vector<vector<int>> dist( n , vector<int>(n,INT_MAX));
+
+        for(int i = 0 ; i<n ; i++){
+            dist[i][i] = 0;
+        }
+        for (auto i : adj){
+            for(auto nbr : i.second){
+                int u = i.first;
+                int v = nbr.first;
+                int wt = nbr.second;
+                dist[u][v] = wt;
+            }
+        }
+        for (int helper = 0 ; helper<n ; helper++){
+            for(int src = 0 ; src < n ; src++){
+                for(int dest = 0 ; dest < n ; dest++){
+                    dist[src][dest] = min(dist[src][dest],dist[src][helper] + dist[helper][src]);
+                }
+            }
         }
 
     }
