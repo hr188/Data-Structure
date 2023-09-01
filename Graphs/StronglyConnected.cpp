@@ -75,6 +75,31 @@ class graph{
         }
         return count;
     }
+     void FindBridges(int src , int parent , int &timer , vector<int> &tin , vector<int> &low ,  unordered_map<int,bool> vis   ){
+        vis[src]= true;
+        tin[src] = timer;
+        low[src] = timer;
+        timer++;
+
+        for(auto nbr : adj[src]){
+            if(nbr== parent) continue;
+
+            if(!vis[nbr]){
+                //call
+                FindBridges(nbr, src , timer , tin, low ,vis);
+                //call se wapis aate hue first update low and check if bridge is present
+                low[src] = min(low[nbr], low[src]);
+                if(low[nbr] > low[src]) {
+                    //means that a bridge is present
+                    cout<< nbr <<"-->" <<src<<"is a bridge" <<endl;
+                }
+            }
+            else{
+                low[src] = min(low[nbr], low[src]);
+            }
+        }
+        
+    }
 };
 int main(){
     graph gu;
