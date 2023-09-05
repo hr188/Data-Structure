@@ -114,7 +114,15 @@ int main(){
     gu.addEdge(6,7,1);
     gu.printList();
     cout<<endl;
-    int n  = gu.StronglyConnectedComponents(8);
-    cout<< n ;
+    int SCC  = gu.StronglyConnectedComponents(8);
+    cout<< SCC <<endl;
+    int n = 8 ;   
+    int src =0 ;
+    int parent = -1;
+    int timer = 1;
+    vector<int> tin(n);
+    vector<int> low(n);
+    unordered_map<int,bool>vis;
+    gu.FindBridges(src, parent ,timer , tin ,low , vis );
 
 }

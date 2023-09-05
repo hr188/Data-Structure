@@ -5,6 +5,7 @@
         "__bit_reference": "cpp",
         "stack": "cpp",
         "queue": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "vector": "cpp"
     }
 }
